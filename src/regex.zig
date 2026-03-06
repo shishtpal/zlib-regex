@@ -53,10 +53,19 @@ pub const Regex = struct {
         re.compiled.deinit();
     }
 
-    // Does the regex match at the start of the string?
+    // Does the regex match the entire input string?
     pub fn match(re: *Regex, input_str: []const u8) !bool {
         var input_bytes = InputBytes.init(input_str);
-        return exec.exec(re.allocator, re.compiled, re.compiled.start, &input_bytes.input, &re.slots);
+        const is_match = try exec.exec(re.allocator, re.compiled, re.compiled.start, &input_bytes.input, &re.slots);
+        if (!is_match) return false;
+
+        // Check that the match covers the entire input
+        if (re.slots.items.len >= 2) {
+            const start = re.slots.items[0] orelse return false;
+            const end = re.slots.items[1] orelse return false;
+            return start == 0 and end == input_str.len;
+        }
+        return false;
     }
 
     // Does the regex match anywhere in the string?

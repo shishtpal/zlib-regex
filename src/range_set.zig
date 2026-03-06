@@ -185,6 +185,7 @@ pub const ByteClassTemplates = struct {
 
         try rs.addRange(ByteRange.new('0', '9'));
         try rs.addRange(ByteRange.new('A', 'Z'));
+        try rs.addRange(ByteRange.single('_'));
         try rs.addRange(ByteRange.new('a', 'z'));
 
         return rs;

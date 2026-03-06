@@ -88,6 +88,7 @@ pub fn build(b: *std.Build) void {
         .{ .name = "basic", .src = "example/basic.zig" },
         .{ .name = "captures-zig", .src = "example/captures.zig" },
         .{ .name = "search", .src = "example/search.zig" },
+        .{ .name = "anchors", .src = "example/anchors.zig" },
     };
 
     for (zig_example_files) |ex| {
