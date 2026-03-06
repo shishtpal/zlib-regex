@@ -74,8 +74,20 @@ pub const Expr = union(enum) {
             .Literal,
             .ByteClass,
             .AnyCharNotNL,
-            // TODO: Don't keep capture here, but allow on repeat operators.
             .Capture,
+            => return true,
+            else => return false,
+        }
+    }
+
+    // Check if expression is valid as an alternation arm (includes Repeat)
+    pub fn isValidAlternateArm(re: *const Expr) bool {
+        switch (re.*) {
+            .Literal,
+            .ByteClass,
+            .AnyCharNotNL,
+            .Capture,
+            .Repeat,
             => return true,
             else => return false,
         }
@@ -478,7 +490,7 @@ pub const Parser = struct {
                     // - '|' is found, pop the existing and add a new alternation to the array.
                     var concat = ArrayList(*Expr).init(p.arena.allocator());
 
-                    if (p.stack.items.len == 0 or !p.stack.items[p.stack.items.len - 1].isByteClass()) {
+                    if (p.stack.items.len == 0 or !p.stack.items[p.stack.items.len - 1].isValidAlternateArm()) {
                         return error.EmptyAlternate;
                     }
 

@@ -90,6 +90,7 @@ pub fn build(b: *std.Build) void {
         .{ .name = "search", .src = "example/search.zig" },
         .{ .name = "anchors", .src = "example/anchors.zig" },
         .{ .name = "newlines", .src = "example/newlines.zig" },
+        .{ .name = "complex_pattern", .src = "example/complex_pattern.zig" },
     };
 
     for (zig_example_files) |ex| {
