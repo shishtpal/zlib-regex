@@ -135,6 +135,12 @@ pub const VmBacktrack = struct {
                     }
                     input.advance();
                 },
+                InstructionData.AnyChar => {
+                    if (at == null) {
+                        return false;
+                    }
+                    input.advance();
+                },
                 InstructionData.Save => |slot| {
                     // Our capture array may not be long enough, extend and fill with empty
                     while (state.slots.items.len <= slot) {

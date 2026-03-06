@@ -15,8 +15,10 @@ pub const InstructionData = union(enum) {
     Char: u8,
     // Match the specified character ranges.
     ByteClass: ByteClass,
-    // Matches the AnyChar special cases
+    // Matches any character except newline
     AnyCharNotNL,
+    // Matches any character including newline
+    AnyChar,
     // Empty match (\w assertion)
     EmptyMatch: Assertion,
     // Stop the thread, found a match
@@ -236,7 +238,7 @@ pub const Compiler = struct {
         const fragment_start = c.insts.items.len;
         const fragment = [_]Instruction{
             Instruction.new(0, InstructionData{ .Split = fragment_start + 1 }),
-            Instruction.new(fragment_start, InstructionData.AnyCharNotNL),
+            Instruction.new(fragment_start, InstructionData.AnyChar),
         };
         try p.appendSlice(&fragment);
 

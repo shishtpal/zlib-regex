@@ -122,6 +122,14 @@ pub const VmPike = struct {
                             });
                         }
                     },
+                    InstructionData.AnyChar => {
+                        if (at != null) {
+                            try nlist.append(Thread{
+                                .pc = inst.out,
+                                .slots = thread.slots,
+                            });
+                        }
+                    },
                     InstructionData.Match => {
                         // We always will have a complete capture in the 0, 1 index
                         if (matched) |last| {

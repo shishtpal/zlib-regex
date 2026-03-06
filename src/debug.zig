@@ -106,6 +106,9 @@ pub fn dumpInstruction(s: Instruction) void {
             debug.print("\n", .{});
         },
         InstructionData.AnyCharNotNL => {
+            debug.print("any_not_nl({})\n", .{s.out});
+        },
+        InstructionData.AnyChar => {
             debug.print("any({})\n", .{s.out});
         },
         InstructionData.Match => {
